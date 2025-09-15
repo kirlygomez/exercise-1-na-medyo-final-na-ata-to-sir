@@ -1,0 +1,107 @@
+<form id="registrationForm" method="POST">
+
+  <!-- Username -->
+  <label for="username">Username:</label>
+  <input type="text" id="username" name="username" placeholder="Enter your username" required>
+  <br><br>
+
+  <!-- Email -->
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" placeholder="Enter your email" required>
+  <br><br>
+
+  <!-- Password -->
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password" placeholder="Enter your password" required>
+  <button type="button" onclick="togglePassword('password')">Show/Hide</button>
+  <br><br>
+
+  <!-- Confirm Password -->
+  <label for="confirmPassword">Confirm Password:</label>
+  <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Re-enter password" required>
+  <button type="button" onclick="togglePassword('confirmPassword')">Show/Hide</button>
+  <br><br>
+
+  <!-- Gender -->
+  <label>Gender:</label><br>
+  <input type="radio" id="male" name="gender" value="male" required>
+  <label for="male">Male</label><br>
+  <input type="radio" id="female" name="gender" value="female">
+  <label for="female">Female</label><br>
+  <input type="radio" id="other" name="gender" value="other">
+  <label for="other">Other</label>
+  <br><br>
+
+  <!-- Interests -->
+  <label>Interests:</label><br>
+  <input type="checkbox" id="sports" name="interests" value="sports">
+  <label for="sports">Sports</label><br>
+  <input type="checkbox" id="music" name="interests" value="music">
+  <label for="music">Music</label><br>
+  <input type="checkbox" id="coding" name="interests" value="coding">
+  <label for="coding">Coding</label><br>
+  <br>
+
+  <!-- Country -->
+  <label for="country">Country:</label>
+  <select id="country" name="country" required>
+    <option value="">--Select your country--</option>
+    <option value="ph">Philippines</option>
+    <option value="us">United States</option>
+    <option value="uk">United Kingdom</option>
+    <option value="jp">Japan</option>
+  </select>
+  <br><br>
+
+  <!-- Short Bio -->
+  <label for="bio">Short Bio:</label><br>
+  <textarea id="bio" name="bio" rows="4" maxlength="150" placeholder="Write about yourself..."></textarea>
+  <p id="bioCount">0 / 150</p>
+  <br>
+
+  <button type="submit">Register</button>
+  <button type="reset">Reset</button>
+</form>
+
+<script>
+  // Toggle password visibility
+  function togglePassword(id) {
+    const field = document.getElementById(id);
+    field.type = field.type === "password" ? "text" : "password";
+  }
+
+  // Live character count for bio
+  const bio = document.getElementById("bio");
+  const bioCount = document.getElementById("bioCount");
+  bio.addEventListener("input", function() {
+    bioCount.textContent = bio.value.length + " / " + bio.maxLength;
+  });
+
+  // Validation
+  document.getElementById("registrationForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    let valid = true;
+
+    // Check required fields
+    this.querySelectorAll("[required]").forEach(function(field) {
+      if (!field.value) {
+        field.style.border = "2px solid red";
+        valid = false;
+      } else {
+        field.style.border = "";
+      }
+    });
+
+    // Password match check
+    if (document.getElementById("password").value !== document.getElementById("confirmPassword").value) {
+      alert("Passwords do not match!");
+      valid = false;
+    }
+
+    if (valid) {
+      alert("Form submitted successfully!");
+      e.target.reset();
+      bioCount.textContent = "0 / 150";
+    }
+  });
+</script>
